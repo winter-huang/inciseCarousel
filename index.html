@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>切割轮播图</title>
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            position: relative;
+        }
+        li {
+            width: 112px;
+            height: 300px;
+            float: left;
+            transform-style: preserve-3d;
+            transition: all 1s;
+        }
+        li span {
+            position: absolute;
+            width: 112px;
+            height: 300px;
+        }
+        li span:nth-child(1) {
+            background-image: url("images/1.jpg");
+            transform: translateZ(150px);
+        }
+        li span:nth-child(2) {
+            background-image: url("images/2.jpg");
+            transform: rotateX(90deg) translateZ(150px);
+        }
+        li span:nth-child(3) {
+            background-image: url("images/3.jpg");
+            transform: rotateX(180deg) translateZ(150px);
+        }
+        li span:nth-child(4) {
+            background-image: url("images/4.jpg");
+            transform: rotateX(270deg) translateZ(150px);
+        }
+        li:nth-child(2) span {
+            background-position: -112px;
+        }
+        li:nth-child(3) span {
+            background-position: -224px;
+        }
+
+        li:nth-child(4) span {
+            background-position: -336px;
+        }
+
+        li:nth-child(5) span {
+            background-position: -448px;
+        }
+        .contain a{
+            position: absolute;
+            top: 50%;
+            margin-top: -25px;
+            font-size: 50px;
+            color: #fff;
+            cursor: pointer;
+            background-color: rgba(0,0,0,.2);
+            opacity: 0;
+            transition: all 1s;
+        }
+        ul:hover a{
+            opacity: 1;
+        }
+        .prev{
+            left: 10px;
+        }
+        .next{
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+<ul class="contain">
+    <li><span></span><span></span><span></span><span></span></li>
+    <li><span></span><span></span><span></span><span></span></li>
+    <li><span></span><span></span><span></span><span></span></li>
+    <li><span></span><span></span><span></span><span></span></li>
+    <li><span></span><span></span><span></span><span></span></li>
+    <a class="prev fa fa-chevron-left"></a>
+    <a class="next fa fa-chevron-right"></a>
+</ul>
+
+<script>
+    var prev=document.querySelector('.prev');
+    var next=document.querySelector('.next');
+    var lis=document.querySelectorAll('li');
+    var num=0;
+    var flag=true;
+    lis[0].addEventListener('transitionend',function () {
+        flag=true;
+    })
+    prev.onclick=function () {
+        if(!flag){
+            return;
+        }
+        flag=false;
+        num++;
+        for(var i=0;i<lis.length;i++){
+            lis[i].style.transform='rotateX('+num*90+'deg)';
+            lis[i].style.transitionDelay=1-i/4+'s';
+        }
+    }
+    var isTransitionEnd=true;
+    lis[4].addEventListener('transitionend',function () {
+        isTransitionEnd=true;
+    })
+    next.onclick=function () {
+        if(!isTransitionEnd){
+            return;
+        }
+        isTransitionEnd=false;
+        num--;
+        for(var i=0;i<lis.length;i++){
+            lis[i].style.transform='rotateX('+num*90+'deg)';
+            lis[i].style.transitionDelay=i/4+'s';
+        }
+    }
+</script>
+
+</body>
+</html>
